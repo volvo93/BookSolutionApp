@@ -67,7 +67,7 @@ namespace WebApI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AuthorExists(id))
+                if (!await AuthorExists(id))
                 {
                     return NotFound();
                 }
@@ -115,9 +115,9 @@ namespace WebApI.Controllers
             return NoContent();
         }
 
-        private bool AuthorExists(int id)
+        private async Task<bool> AuthorExists(int id)
         {
-            return (_context.Authors?.Any(e => e.Id == id)).GetValueOrDefault();
+            return await (_context.Authors?.AnyAsync(e => e.Id == id));
         }
     }
 }
